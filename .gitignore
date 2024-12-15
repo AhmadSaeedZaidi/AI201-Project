@@ -1,0 +1,19 @@
+# Python cache directories
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*/*/*/__pycache__/
+
+# Python compiled files
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# VS Code specific files (optional)
+.vscode/
+*.code-workspace
