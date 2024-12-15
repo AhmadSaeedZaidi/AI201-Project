@@ -1,0 +1,121 @@
+/* General styles */
+body {
+    background-color: #111;
+    font-family: Arial, sans-serif;
+}
+
+/* Main container */
+.main-container {
+    padding: 20px;
+}
+
+/* Title */
+.title {
+    text-align: center;
+    color: white;
+}
+
+/* Input container */
+.input-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.equation-input {
+    width: 80%;
+    margin-right: 10px;
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+/* Buttons */
+.plot-button, .toggle-button {
+    background-color: #333;
+    color: white;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.toggle-button {
+    margin-left: 20px;
+}
+
+/* Range inputs container */
+.range-inputs {
+    margin-bottom: 20px;
+}
+
+.range-group {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+/* Input fields */
+.input-field {
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+    margin: 0 10px;
+    padding: 5px;
+}
+
+/* Labels */
+.input-label {
+    color: white;
+    margin: 0 5px;
+}
+
+/* Dropdown styling */
+.dropdown-dark {
+    width: 120px !important;
+    display: inline-block;
+}
+
+.dropdown-dark .Select-control {
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+
+.dropdown-dark .Select-menu-outer {
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 5px;
+}
+
+.dropdown-dark .Select-option {
+    background-color: #222;
+    color: white;
+}
+
+.dropdown-dark .Select-option:hover {
+    background-color: #333;
+}
+
+.dropdown-dark .Select-value-label {
+    color: white !important;
+}
+
+.dropdown-dark .Select-placeholder {
+    color: white;
+}
+
+/* Controls container */
+.controls-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Plot area */
+.plot-area {
+    height: 70vh;
+    background-color: #222;
+    color: white;
+    border: 1px solid #444;
+}
