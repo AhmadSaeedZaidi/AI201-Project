@@ -15,7 +15,7 @@ def plot_explicit_2d(equation, range_values, color='blue'):
             expr = lhs
 
         try:
-            x_vals = np.linspace(x_min, x_max, 1000)
+            x_vals = np.linspace(float(x_min), float(x_max), 1000)
             func = sp.lambdify(x, expr, modules=['numpy'])
             y_vals = func(x_vals)
             
@@ -43,6 +43,10 @@ def plot_explicit_2d(equation, range_values, color='blue'):
                     line=dict(color=color),
                     showlegend=False
                 ))
+            
+            # Set the axis ranges explicitly
+            fig.update_xaxes(range=[float(x_min), float(x_max)])
+            fig.update_yaxes(range=[float(y_min), float(y_max)])
             
         except Exception as e:
             raise ValueError(f"Error evaluating the equation: {str(e)}")
