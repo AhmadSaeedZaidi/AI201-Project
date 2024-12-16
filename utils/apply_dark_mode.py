@@ -8,3 +8,4 @@ def apply_dark_mode(fig):
         yaxis=dict(gridcolor="gray"),
     )
     return fig
+# unused, here for future use
