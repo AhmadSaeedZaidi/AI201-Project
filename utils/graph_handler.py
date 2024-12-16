@@ -2,18 +2,20 @@ import sympy as sp
 from d2.explicit import plot_explicit_2d
 from d2.implicit import plot_implicit_2d
 from d2.parametric import plot_parametric_2d
+from d3.cartesian import plot_explicit_3d
 
 def determine_equation_type(equation):
-    x, y = sp.symbols('x y')
+    x, y, z = sp.symbols('x y z')
     lhs, rhs = equation.lhs, equation.rhs
     
-    # First check if y appears with any power
-    if isinstance(lhs, sp.Pow) and lhs.base == y:
-        return "implicit"
-    if isinstance(rhs, sp.Pow) and rhs.base == y:
+    # Check for 3D equation
+    if str(equation).find('z') != -1:
+        return "3d_explicit"
+    
+    # Rest of the 2D checks remain the same
+    if str(equation).find('y**') != -1:
         return "implicit"
     
-    # Then check normal explicit cases
     if lhs == y and not rhs.has(y):
         return "explicit"
     if rhs == y and not lhs.has(y):
@@ -22,10 +24,6 @@ def determine_equation_type(equation):
         return "explicit"
     if rhs == x and not lhs.has(x):
         return "explicit"
-    
-    # If y appears in any other way that's not just y by itself
-    if (lhs.has(y) and lhs != y) or (rhs.has(y) and rhs != y):
-        return "implicit"
     
     try:
         solved = sp.solve(equation, y)
@@ -45,7 +43,7 @@ def determine_equation_type(equation):
 
 def handle_graph(equation, range_values, color='blue', dimension='2d'):
     if dimension == '3d':
-        raise NotImplementedError("3D plotting not yet implemented")
+        return plot_explicit_3d(equation, range_values, color)
     
     if dimension == '2d_parametric':
         return plot_parametric_2d(equation, range_values, color)

@@ -38,9 +38,9 @@ layout = html.Div([
         
         html.Div([
             html.Label('Y Min', className='input-label'),
-            dcc.Input(id='y-min', type='number', value=-3, className='input-field'),
+            dcc.Input(id='y-min', type='number', value=-10, className='input-field'),
             html.Label('Y Max', className='input-label'),
-            dcc.Input(id='y-max', type='number', value=3, className='input-field'),
+            dcc.Input(id='y-max', type='number', value=10, className='input-field'),
         ], className='range-group', id='y-range'),
         
         html.Div([
@@ -54,7 +54,7 @@ layout = html.Div([
             html.Label('Z Min', className='input-label'),
             dcc.Input(id='z-min', type='number', value=-10, className='input-field'),
             html.Label('Z Max', className='input-label'),
-            dcc.Input(id='z-max', type='number', value=10, className='input-field'),
+            dcc.Input(id='z-max', type='number', value=50, className='input-field'),
         ], className='range-group', id='z-range', style={'display': 'none'}),
     ], className='range-inputs'),
     
@@ -67,9 +67,12 @@ layout = html.Div([
                 {'label': 'Green', 'value': 'green'},
                 {'label': 'Yellow', 'value': 'yellow'},
                 {'label': 'Purple', 'value': 'purple'},
-                {'label': 'Orange', 'value': 'orange'}
+                {'label': 'Orange', 'value': 'orange'},
+                {'label': 'Plasma', 'value': 'plasma'},
+                {'label': 'Viridis', 'value': 'viridis'},
+                {'label': 'Magma', 'value': 'magma'}
             ],
-            value='blue',
+            value='plasma',
             className='dropdown-dark'
         ),
         dcc.Dropdown(

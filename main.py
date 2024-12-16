@@ -45,11 +45,23 @@ def update_plot(equation, dimension, color, x_min, x_max, y_min, y_max, t_min, t
             "template": "plotly_dark",
             "plot_bgcolor": "black",
             "paper_bgcolor": "black",
-            "font": {"color": "white"},
-            "xaxis": {"gridcolor": "#333", "zerolinecolor": "#666", "range": [-10, 10]},
-            "yaxis": {"gridcolor": "#333", "zerolinecolor": "#666", "range": [-3, 3]}
+            "font": {"color": "white"}
         }
     }
+
+    # Add proper 3D scene configuration
+    if is_3d:
+        empty_fig["layout"]["scene"] = {
+            "xaxis": {"gridcolor": "#333", "zerolinecolor": "#666", "range": [x_min, x_max]},
+            "yaxis": {"gridcolor": "#333", "zerolinecolor": "#666", "range": [y_min, y_max]},
+            "zaxis": {"gridcolor": "#333", "zerolinecolor": "#666", "range": [z_min, z_max]},
+            "bgcolor": "black"
+        }
+    else:
+        empty_fig["layout"].update({
+            "xaxis": {"gridcolor": "#333", "zerolinecolor": "#666", "range": [x_min, x_max]},
+            "yaxis": {"gridcolor": "#333", "zerolinecolor": "#666", "range": [y_min, y_max]}
+        })
 
     if not equation or equation.strip() == "":
         empty_fig["layout"]["title"] = "Enter an equation"
@@ -57,21 +69,24 @@ def update_plot(equation, dimension, color, x_min, x_max, y_min, y_max, t_min, t
 
     try:
         equation_data = preprocess_input(equation)
-        if isinstance(equation_data, tuple):  # Parametric case
+        if isinstance(equation_data, tuple):
             standardized_equation = equation_data
-        else:  # Normal case
+        else:
             standardized_equation = equation_data
             
         range_values = {
-            "x": (x_min, x_max),
-            "y": (y_min, y_max),
-            "t": (t_min, t_max),
-            "z": (z_min, z_max) if is_3d else None
+            "x": (float(x_min), float(x_max)),
+            "y": (float(y_min), float(y_max)),
+            "t": (float(t_min), float(t_max)),
+            "z": (float(z_min), float(z_max))
         }
+        
+        print(f"Plotting in {dimension} mode")  # Debug print
         figure = handle_graph(standardized_equation, range_values, color, dimension)
         return figure, z_style, t_style, xy_style, xy_style
 
     except Exception as e:
+        print(f"Error: {str(e)}")  # Debug print
         empty_fig["layout"]["title"] = str(e)
         return empty_fig, z_style, t_style, xy_style, xy_style
 

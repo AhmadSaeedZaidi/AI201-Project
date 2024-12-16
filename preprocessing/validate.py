@@ -29,7 +29,8 @@ def preprocess_input(equation_str):
     print(f"3. After function processing: {equation_str}")
     
     if '=' not in equation_str:
-        lhs = 'y'
+        # For 3D mode, default to z = expression
+        lhs = 'z'
         rhs = equation_str
     else:
         lhs, rhs = equation_str.split('=')
@@ -38,4 +39,4 @@ def preprocess_input(equation_str):
     equation = sp.Eq(sp.sympify(lhs), sp.sympify(rhs))
     print(f"5. After sympify - lhs: {equation.lhs}, rhs: {equation.rhs}")
     
-    return equation  # Just return the equation for normal cases
+    return equation
