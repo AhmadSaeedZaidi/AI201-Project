@@ -1,47 +1,62 @@
+import sympy as sp
 from d2.explicit import plot_explicit_2d
 from d2.implicit import plot_implicit_2d
-from d2.parametric import plot_parametric_2d
-from d3.explicit.planes import plot_plane
-from d3.implicit.implicit_plot import plot_implicit_surface
-from d3.parametric.curves import plot_parametric_curve_3d
-from d3.parametric.surfaces import plot_parametric_surface
-import sympy as sp
 
-
-def is_explicit_or_implicit(equation):
-    if equation.is_Equality:
-        free_symbols = equation.free_symbols
-        x, y = sp.Symbol('x'), sp.Symbol('y')
-
-        if equation.lhs == y or equation.rhs == y:
-            return 'explicit'
+def determine_equation_type(equation):
+    x, y = sp.symbols('x y')
+    lhs, rhs = equation.lhs, equation.rhs
+    
+    # First check if y appears with any power
+    if isinstance(lhs, sp.Pow) and lhs.base == y:
+        return "implicit"
+    if isinstance(rhs, sp.Pow) and rhs.base == y:
+        return "implicit"
+    
+    # Then check normal explicit cases
+    if lhs == y and not rhs.has(y):
+        return "explicit"
+    if rhs == y and not lhs.has(y):
+        return "explicit"
+    if lhs == x and not rhs.has(x):
+        return "explicit"
+    if rhs == x and not lhs.has(x):
+        return "explicit"
+    
+    # If y appears in any other way that's not just y by itself
+    if (lhs.has(y) and lhs != y) or (rhs.has(y) and rhs != y):
+        return "implicit"
+    
+    try:
+        solved = sp.solve(equation, y)
+        if len(solved) == 1 and not solved[0].has(y):
+            return "explicit"
+    except:
+        pass
         
-        if x in free_symbols and y in free_symbols:
-            solutions = sp.solve(equation, y, dict=False)
-            if all(sol.has(x) for sol in solutions):
-                if len(solutions) == 1:
-                    return 'explicit'  
-                else:
-                    return 'implicit'  
-    return 'unsupported'
+    try:
+        solved = sp.solve(equation, x)
+        if len(solved) == 1 and not solved[0].has(x):
+            return "explicit"
+    except:
+        pass
+    
+    return "implicit"
 
-
-def handle_graph(equation, range_value, color, is_3d):
+def handle_graph(equation, range_values={'x': [-10, 10], 'y': [-3, 3]}, color='blue', is_3d=False):
     if is_3d:
-        if isinstance(equation, tuple):
-            return plot_parametric_curve_3d(equation, range_value, color)
-        return plot_implicit_surface(equation, range_value, color)
+        raise NotImplementedError("3D plotting not yet implemented")
     
-    if isinstance(equation, tuple):
-        return plot_parametric_2d(equation, range_value, color)
-    
-    eq_type = is_explicit_or_implicit(equation)
+    eq_type = determine_equation_type(equation)
     print(f"Equation type: {eq_type}")
     
-    if eq_type == 'explicit':
-        return plot_explicit_2d(equation, range_value, color)
-    elif eq_type == 'implicit':
-        return plot_implicit_2d(equation, range_value, color)
-    
-    raise ValueError("Unsupported equation type.")
+    if eq_type == "explicit":
+        try:
+            solved = sp.solve(equation, sp.Symbol('y'))
+            if len(solved) == 1:
+                equation = sp.Eq(sp.Symbol('y'), solved[0])
+        except:
+            pass
+        return plot_explicit_2d(equation, range_values, color)
+    else:
+        return plot_implicit_2d(equation, range_values, color)
 

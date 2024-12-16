@@ -36,8 +36,16 @@ def update_plot(equation, toggle_clicks, color, x_min, x_max, y_min, y_max, z_mi
             "plot_bgcolor": "black",
             "paper_bgcolor": "black",
             "font": {"color": "white"},
-            "xaxis": {"gridcolor": "#333", "zerolinecolor": "#666"},
-            "yaxis": {"gridcolor": "#333", "zerolinecolor": "#666"}
+            "xaxis": {
+                "gridcolor": "#333", 
+                "zerolinecolor": "#666",
+                "range": [-10, 10]
+            },
+            "yaxis": {
+                "gridcolor": "#333", 
+                "zerolinecolor": "#666",
+                "range": [-3, 3]
+            }
         }
     }
 
@@ -46,7 +54,8 @@ def update_plot(equation, toggle_clicks, color, x_min, x_max, y_min, y_max, z_mi
         return empty_fig, z_style
 
     try:
-        standardized_equation = preprocess_input(equation)
+        equation_data = preprocess_input(equation)
+        standardized_equation = equation_data[0]
         range_values = {
             "x": (x_min, x_max),
             "y": (y_min, y_max),

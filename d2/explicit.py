@@ -54,8 +54,8 @@ def plot_explicit_2d(equation, range_values, color='blue'):
             template="plotly_dark",
             plot_bgcolor='black',
             paper_bgcolor='black',
-            xaxis=dict(gridcolor='#333', zerolinecolor='#666'),
-            yaxis=dict(gridcolor='#333', zerolinecolor='#666'),
+            xaxis=dict(gridcolor='#333', zerolinecolor='#666', range=[x_min, x_max]),
+            yaxis=dict(gridcolor='#333', zerolinecolor='#666', range=[y_min, y_max]),
             font=dict(color="white")
         )
 
@@ -87,8 +87,8 @@ def plot_explicit_2d(equation, range_values, color='blue'):
             template="plotly_dark",
             plot_bgcolor='black',
             paper_bgcolor='black',
-            xaxis=dict(gridcolor='#333', zerolinecolor='#666'),
-            yaxis=dict(gridcolor='#333', zerolinecolor='#666'),
+            xaxis=dict(gridcolor='#333', zerolinecolor='#666', range=[x_min, x_max]),
+            yaxis=dict(gridcolor='#333', zerolinecolor='#666', range=[y_min, y_max]),
             font=dict(color="white")
         )
 
