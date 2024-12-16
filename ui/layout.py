@@ -26,7 +26,45 @@ layout = html.Div([
             placeholder='Enter your equation (e.g., y = x^2)',
             className='equation-input'
         ),
+        html.Button('Plot Suggestions', id='open-suggestions', className='suggestion-button'),
     ], className='input-container'),
+    
+    html.Div([
+        html.Div([
+            html.H3("Plot Suggestions", className='modal-header'),
+            html.Button("×", id='close-suggestions', className='close-button'),
+            html.Div([
+                html.Div([
+                    html.H4("Basic Surfaces"),
+                    html.Ul([
+                        html.Li("x^2 + y^2 - Paraboloid", id='suggestion-1', **{'data-equation': 'x^2 + y^2'}),
+                        html.Li("sin(x) + cos(y) - Wavy surface", id='suggestion-2', **{'data-equation': 'sin(x) + cos(y)'}),
+                        html.Li("x^2 - y^2 - Hyperbolic paraboloid", id='suggestion-3', **{'data-equation': 'x^2 - y^2'}),
+                        html.Li("sqrt(x^2 + y^2) - Cone", id='suggestion-4', **{'data-equation': 'sqrt(x^2 + y^2)'})
+                    ])
+                ], className='suggestion-section'),
+                
+                html.Div([
+                    html.H4("Complex Surfaces"),
+                    html.Ul([
+                        html.Li("sin(sqrt(x^2 + y^2)) - Ripple pattern", id='suggestion-5', **{'data-equation': 'sin(sqrt(x^2 + y^2))'}),
+                        html.Li("exp(-(x^2 + y^2)/10) - Bell curve", id='suggestion-6', **{'data-equation': 'exp(-(x^2 + y^2)/10)'}),
+                        html.Li("sin(x)*cos(y) - Checkerboard", id='suggestion-7', **{'data-equation': 'sin(x)*cos(y)'}),
+                        html.Li("1/(1 + x^2 + y^2) - Bowl shape", id='suggestion-8', **{'data-equation': '1/(1 + x^2 + y^2)'})
+                    ])
+                ], className='suggestion-section'),
+                
+                html.Div([
+                    html.H4("Mathematical Functions"),
+                    html.Ul([
+                        html.Li("sin(x*y) - Interference pattern"),
+                        html.Li("abs(sin(x) + cos(y)) - Absolute surface"),
+                        html.Li("log(x^2 + y^2 + 1) - Logarithmic surface"),
+                    ])
+                ], className='suggestion-section'),
+            ], className='suggestions-content')
+        ], className='modal-content')
+    ], id='suggestions-modal', className='modal', style={'display': 'none'}),
     
     html.Div([
         html.Div([

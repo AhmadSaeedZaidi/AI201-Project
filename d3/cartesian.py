@@ -46,11 +46,10 @@ def plot_explicit_3d(equation, range_values, color='blue'):
             x=X,
             y=Y,
             z=Z,
-            colorscale=colorscale_map.get(color, 'Plasma'),  # Default to Plasma if color not found
+            colorscale=colorscale_map.get(color, 'Plasma'),  # Default to Plasma
             showscale=True  # Show the colorbar
         )])
         
-        # Update layout for 3D
         fig.update_layout(
             title="3D Surface Plot",
             scene=dict(

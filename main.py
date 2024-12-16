@@ -1,7 +1,8 @@
-from dash import Dash, Input, Output, State
+from dash import Dash, Input, Output, State, ctx
 from ui.layout import layout
 from preprocessing.validate import preprocess_input
 from utils.graph_handler import handle_graph
+import dash
 
 # Initialize app
 app = Dash(__name__)
@@ -68,7 +69,7 @@ def update_plot(equation, dimension, color, x_min, x_max, y_min, y_max, t_min, t
         return empty_fig, z_style, t_style, xy_style, xy_style
 
     try:
-        equation_data = preprocess_input(equation)
+        equation_data = preprocess_input(equation, dimension)
         if isinstance(equation_data, tuple):
             standardized_equation = equation_data
         else:
@@ -89,6 +90,54 @@ def update_plot(equation, dimension, color, x_min, x_max, y_min, y_max, t_min, t
         print(f"Error: {str(e)}")  # Debug print
         empty_fig["layout"]["title"] = str(e)
         return empty_fig, z_style, t_style, xy_style, xy_style
+
+@app.callback(
+    Output('suggestions-modal', 'style'),
+    [Input('open-suggestions', 'n_clicks'),
+     Input('close-suggestions', 'n_clicks')],
+    [State('suggestions-modal', 'style')]
+)
+def toggle_modal(open_clicks, close_clicks, current_style):
+    if not ctx.triggered:
+        return {'display': 'none'}
+    
+    button_id = ctx.triggered[0]['prop_id'].split('.')[0]
+    
+    if button_id == 'open-suggestions':
+        return {'display': 'block'}
+    elif button_id == 'close-suggestions':
+        return {'display': 'none'}
+    
+    return current_style
+
+@app.callback(
+    Output('equation-input', 'value'),
+    [Input('suggestion-1', 'n_clicks'),
+     Input('suggestion-2', 'n_clicks'),
+     Input('suggestion-3', 'n_clicks'),
+     Input('suggestion-4', 'n_clicks'),
+     Input('suggestion-5', 'n_clicks'),
+     Input('suggestion-6', 'n_clicks'),
+     Input('suggestion-7', 'n_clicks'),
+     Input('suggestion-8', 'n_clicks')],
+    [State('suggestion-1', 'data-equation'),
+     State('suggestion-2', 'data-equation'),
+     State('suggestion-3', 'data-equation'),
+     State('suggestion-4', 'data-equation'),
+     State('suggestion-5', 'data-equation'),
+     State('suggestion-6', 'data-equation'),
+     State('suggestion-7', 'data-equation'),
+     State('suggestion-8', 'data-equation')]
+)
+def handle_suggestion_click(*args):
+    if not ctx.triggered:
+        raise dash.exceptions.PreventUpdate
+        
+    clicked_id = ctx.triggered[0]['prop_id'].split('.')[0]
+    suggestion_index = int(clicked_id.split('-')[1]) - 1
+    equations = args[8:]  # Second half of args contains the equations
+    
+    return equations[suggestion_index]
 
 if __name__ == "__main__":
     app.run_server(debug=True)

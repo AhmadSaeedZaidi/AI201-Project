@@ -3,6 +3,19 @@ import sympy as sp
 import plotly.graph_objects as go
 
 def plot_implicit_2d(equation, range_values, color='blue'):
+    color_map = {
+        'blue': '#00CED1',    # Turquoise/Aqua
+        'red': '#FF6B6B',     # Soft coral red
+        'green': '#98FB98',   # Pale green
+        'yellow': '#FFD700',  # Gold
+        'purple': '#DDA0DD',  # Plum
+        'orange': '#FFA07A',  # Light salmon
+        'plasma': 'Plasma',   
+        'viridis': 'Viridis', 
+        'magma': 'Magma'      
+    }
+    plot_color = color_map.get(color, color_map['blue'])
+    
     x, y = sp.symbols('x y')
     x_min, x_max = float(range_values['x'][0]), float(range_values['x'][1])
     y_min, y_max = float(range_values['y'][0]), float(range_values['y'][1])
@@ -33,7 +46,7 @@ def plot_implicit_2d(equation, range_values, color='blue'):
                 type='constraint'
             ),
             line=dict(
-                color=color,
+                color=plot_color,
                 width=2
             ),
             showscale=False

@@ -12,7 +12,7 @@ def determine_equation_type(equation):
     if str(equation).find('z') != -1:
         return "3d_explicit"
     
-    # Rest of the 2D checks remain the same
+    # Rest of the 2D checks
     if str(equation).find('y**') != -1:
         return "implicit"
     

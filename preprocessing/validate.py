@@ -13,7 +13,7 @@ def is_explicit_form(lhs_expr, rhs_expr):
         return True
     return False
 
-def preprocess_input(equation_str):
+def preprocess_input(equation_str, dimension='2d'):
     print(f"1. Input received: {equation_str}")
     
     equation_str = equation_str.replace(' ', '')
@@ -29,8 +29,8 @@ def preprocess_input(equation_str):
     print(f"3. After function processing: {equation_str}")
     
     if '=' not in equation_str:
-        # For 3D mode, default to z = expression
-        lhs = 'z'
+        # Choose default variable based on dimension
+        lhs = 'z' if dimension == '3d' else 'y'
         rhs = equation_str
     else:
         lhs, rhs = equation_str.split('=')
@@ -40,3 +40,12 @@ def preprocess_input(equation_str):
     print(f"5. After sympify - lhs: {equation.lhs}, rhs: {equation.rhs}")
     
     return equation
+
+def process_math_functions(expr_str):
+    # Handle coefficient multiplication for variables and functions
+    expr_str = re.sub(r'(\d)([a-zA-Z])', r'\1*\2', expr_str)  # 2x -> 2*x
+    expr_str = re.sub(r'(\d)(sin|cos|tan|log|exp|sqrt)', r'\1*\2', expr_str)  # 2sin -> 2*sin
+    
+    expr_str = expr_str.replace('^', '**')
+    
+    return expr_str
