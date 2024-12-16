@@ -17,3 +17,11 @@ build/
 # VS Code specific files (optional)
 .vscode/
 *.code-workspace
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+
+# If you have any Jupyter Notebook checkpoints
+.ipynb_checkpoints/
