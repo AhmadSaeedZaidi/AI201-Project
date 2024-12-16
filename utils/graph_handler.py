@@ -1,6 +1,7 @@
 import sympy as sp
 from d2.explicit import plot_explicit_2d
 from d2.implicit import plot_implicit_2d
+from d2.parametric import plot_parametric_2d
 
 def determine_equation_type(equation):
     x, y = sp.symbols('x y')
@@ -42,9 +43,12 @@ def determine_equation_type(equation):
     
     return "implicit"
 
-def handle_graph(equation, range_values={'x': [-10, 10], 'y': [-3, 3]}, color='blue', is_3d=False):
-    if is_3d:
+def handle_graph(equation, range_values, color='blue', dimension='2d'):
+    if dimension == '3d':
         raise NotImplementedError("3D plotting not yet implemented")
+    
+    if dimension == '2d_parametric':
+        return plot_parametric_2d(equation, range_values, color)
     
     eq_type = determine_equation_type(equation)
     print(f"Equation type: {eq_type}")
