@@ -1,17 +1,61 @@
-from sympy import symbols, lambdify
 import numpy as np
+import sympy as sp
 import plotly.graph_objects as go
 
-def plot_parametric_2d(parametric_eqs, range_value, color):
-    t = symbols('t')
-    x_expr, y_expr = parametric_eqs
-    x_func = lambdify(t, x_expr)
-    y_func = lambdify(t, y_expr)
-
-    t_vals = np.linspace(-range_value, range_value, 100)
-    x_vals = [x_func(val) for val in t_vals]
-    y_vals = [y_func(val) for val in t_vals]
-
-    fig = go.Figure()
-    fig.add_trace(go.Scatter(x=x_vals, y=y_vals, mode='lines', line=dict(color=color)))
-    return fig
+def plot_parametric_2d(equation, range_values, color='blue'):
+    t = sp.Symbol('t')
+    
+    # Extract expressions from equation tuple
+    x_expr, y_expr = equation[0]  # Note: equation[0] because preprocess_input returns (expr, None, "parametric")
+    
+    try:
+        # Convert symbolic expressions to numpy functions
+        x_func = sp.lambdify(t, x_expr, modules=['numpy'])
+        y_func = sp.lambdify(t, y_expr, modules=['numpy'])
+        
+        # Generate t values using the t range
+        t_min, t_max = range_values['t']
+        t_vals = np.linspace(float(t_min), float(t_max), 1000)
+        
+        # Calculate x and y values
+        x_vals = x_func(t_vals)
+        y_vals = y_func(t_vals)
+        
+        # Filter out invalid values
+        mask = np.isfinite(x_vals) & np.isfinite(y_vals)
+        x_vals, y_vals = x_vals[mask], y_vals[mask]
+        
+        # Create the figure
+        fig = go.Figure(data=go.Scatter(
+            x=x_vals,
+            y=y_vals,
+            mode='lines',
+            line=dict(color=color),
+            showlegend=False
+        ))
+        
+        # Update layout
+        fig.update_layout(
+            title="2D Parametric Plot",
+            xaxis_title='X',
+            yaxis_title='Y',
+            template="plotly_dark",
+            plot_bgcolor='black',
+            paper_bgcolor='black',
+            xaxis=dict(
+                gridcolor='#333',
+                zerolinecolor='#666',
+                range=[float(range_values['x'][0]), float(range_values['x'][1])]
+            ),
+            yaxis=dict(
+                gridcolor='#333',
+                zerolinecolor='#666',
+                range=[float(range_values['y'][0]), float(range_values['y'][1])]
+            ),
+            font=dict(color="white")
+        )
+        
+    except Exception as e:
+        raise ValueError(f"Error evaluating the parametric equations: {str(e)}")
+    
+    return fig.to_dict()

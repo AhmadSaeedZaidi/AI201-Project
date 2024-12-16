@@ -19,6 +19,12 @@ def preprocess_input(equation_str):
     equation_str = equation_str.replace(' ', '')
     print(f"2. After basic preprocessing: {equation_str}")
     
+    if ',' in equation_str:  # Parametric form
+        x_eq, y_eq = equation_str.split(',')
+        x_expr = sp.sympify(process_math_functions(x_eq))
+        y_expr = sp.sympify(process_math_functions(y_eq))
+        return (x_expr, y_expr), None, "parametric"
+    
     equation_str = process_math_functions(equation_str)
     print(f"3. After function processing: {equation_str}")
     
@@ -32,4 +38,4 @@ def preprocess_input(equation_str):
     equation = sp.Eq(sp.sympify(lhs), sp.sympify(rhs))
     print(f"5. After sympify - lhs: {equation.lhs}, rhs: {equation.rhs}")
     
-    return equation, None, "normal"
+    return equation  # Just return the equation for normal cases

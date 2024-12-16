@@ -34,14 +34,21 @@ layout = html.Div([
             dcc.Input(id='x-min', type='number', value=-10, className='input-field'),
             html.Label('X Max', className='input-label'),
             dcc.Input(id='x-max', type='number', value=10, className='input-field'),
-        ], className='range-group'),
+        ], className='range-group', id='x-range'),
         
         html.Div([
             html.Label('Y Min', className='input-label'),
             dcc.Input(id='y-min', type='number', value=-3, className='input-field'),
             html.Label('Y Max', className='input-label'),
             dcc.Input(id='y-max', type='number', value=3, className='input-field'),
-        ], className='range-group'),
+        ], className='range-group', id='y-range'),
+        
+        html.Div([
+            html.Label('T Min', className='input-label'),
+            dcc.Input(id='t-min', type='number', value=0, className='input-field'),
+            html.Label('T Max', className='input-label'),
+            dcc.Input(id='t-max', type='number', value=2*3.14159, className='input-field'),
+        ], className='range-group', id='t-range', style={'display': 'none'}),
         
         html.Div([
             html.Label('Z Min', className='input-label'),
@@ -65,7 +72,16 @@ layout = html.Div([
             value='blue',
             className='dropdown-dark'
         ),
-        html.Button('Toggle 2D/3D', id='toggle-2d-3d', className='toggle-button')
+        dcc.Dropdown(
+            id='dimension-picker',
+            options=[
+                {'label': '2D Cartesian', 'value': '2d'},
+                {'label': '2D Parametric', 'value': '2d_parametric'},
+                {'label': '3D', 'value': '3d'}
+            ],
+            value='2d',
+            className='dropdown-dark'
+        )
     ], className='controls-container'),
     
     dcc.Graph(
