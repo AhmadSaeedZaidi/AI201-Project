@@ -1,20 +1,17 @@
-project/
+project /
 │
 ├── main.py
-├── ui/
+├── ui /
 │   └── layout.py
-├── preprocessing/
+├── preprocessing /
 │   └── validate.py
-├── 2d/
+├── utils /
+│   └── apply_dark_mode.py
+│   └── graph_handler.py
+│   └── math_functions.py
+├── d2 /
 │   ├── explicit.py
 │   ├── implicit.py
 │   ├── parametric.py
-├── 3d/
-│   ├── explicit/
-│   │   ├── planes.py
-│   │   ├── surfaces.py
-│   ├── implicit/
-│   │   └── implicit_plot.py
-│   ├── parametric/
-│       ├── curves.py
-│       └── surfaces.py
+├── d3/
+│   ├── cartesian.py

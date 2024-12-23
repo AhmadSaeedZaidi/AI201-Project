@@ -110,7 +110,7 @@ layout = html.Div([
                 {'label': 'Viridis', 'value': 'viridis'},
                 {'label': 'Magma', 'value': 'magma'}
             ],
-            value='plasma',
+            value='blue',
             className='dropdown-dark'
         ),
         dcc.Dropdown(
